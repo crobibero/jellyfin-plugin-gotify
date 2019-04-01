@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="thumb.jpg" />
+      <EmbeddedResource Include="thumb.jpg" />
+      <None Remove="Configuration\config.html" />
+      <EmbeddedResource Include="Configuration\config.html" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Jellyfin.Controller" Version="10.2.0.1" />
+      <PackageReference Include="Jellyfin.Model" Version="10.2.0.1" />
+    </ItemGroup>
+
+</Project>
