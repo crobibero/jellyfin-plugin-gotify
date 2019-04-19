@@ -38,8 +38,9 @@ namespace Jellyfin.Plugins.Gotify.Api
 
             var body = new Dictionary<string, string>
             {
-                {"message", "This is a test notification from Emby"},
-                {"title", "Test Notification"}
+                {"message", "This is a test notification from Jellyfin"},
+                {"title", "Test Notification"},
+                {"priority", options.Priority.ToString()}
             };
 
             var requestOptions = new HttpRequestOptions

@@ -39,6 +39,8 @@ namespace Jellyfin.Plugins.Gotify
                     body.Add("title", request.Name);
                 body.Add("message", request.Description);
             }
+
+            body.Add("priority", options.Priority.ToString());
             
             var requestOptions = new HttpRequestOptions
             {
