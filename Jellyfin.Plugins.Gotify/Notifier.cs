@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using Jellyfin.Plugins.Gotify.Configuration;
 using MediaBrowser.Common.Net;
 using MediaBrowser.Controller.Entities;
@@ -31,13 +32,13 @@ namespace Jellyfin.Plugins.Gotify
 
             if (string.IsNullOrEmpty(request.Description))
             {
-                body.Add("message", request.Name);
+                body.Add("message", HttpUtility.UrlEncode(request.Name));
             }
             else
             {
                 if (!string.IsNullOrEmpty(request.Name))
-                    body.Add("title", request.Name);
-                body.Add("message", request.Description);
+                    body.Add("title", HttpUtility.UrlEncode(request.Name));
+                body.Add("message", HttpUtility.UrlEncode(request.Description));
             }
 
             body.Add("priority", options.Priority.ToString());

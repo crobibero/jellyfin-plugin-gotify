@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using Jellyfin.Plugins.Gotify.Configuration;
 using MediaBrowser.Common.Net;
 using MediaBrowser.Model.Services;
@@ -38,8 +39,8 @@ namespace Jellyfin.Plugins.Gotify.Api
 
             var body = new Dictionary<string, string>
             {
-                {"message", "This is a test notification from Jellyfin"},
-                {"title", "Test Notification"},
+                {"message", HttpUtility.UrlEncode("This is a test notification from Jellyfin")},
+                {"title", HttpUtility.UrlEncode("Test Notification")},
                 {"priority", options.Priority.ToString()}
             };
 
