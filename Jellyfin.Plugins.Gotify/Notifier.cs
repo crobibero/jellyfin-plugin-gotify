@@ -8,17 +8,19 @@ using Jellyfin.Plugins.Gotify.Configuration;
 using MediaBrowser.Common.Net;
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Notifications;
-using Microsoft.Extensions.Logging;
+using MediaBrowser.Model.Serialization;
 
 namespace Jellyfin.Plugins.Gotify
 {
     public class Notifier : INotificationService
     {
         private readonly IHttpClient _httpClient;
+        private readonly IJsonSerializer _jsonSerializer;
 
-        public Notifier(IHttpClient httpClient)
+        public Notifier(IHttpClient httpClient, IJsonSerializer jsonSerializer)
         {
             _httpClient = httpClient;
+            _jsonSerializer = jsonSerializer;
         }
         
         public async Task SendNotification(UserNotification request, CancellationToken cancellationToken)
@@ -45,10 +47,15 @@ namespace Jellyfin.Plugins.Gotify
             
             var requestOptions = new HttpRequestOptions
             {
-                Url = options.Url.TrimEnd('/') + $"/message?token={options.Token}"
+                Url = options.Url.TrimEnd('/') + $"/message?token={options.Token}",
+                RequestContent = _jsonSerializer.SerializeToString(body),
+                BufferContent = false,
+                RequestContentType = "application/json",
+                LogErrorResponseBody = true,
+                LogRequest = true,
+                DecompressionMethod = CompressionMethod.None,
+                EnableKeepAlive = false
             };
-
-            requestOptions.SetPostData(body);
 
             await _httpClient.Post(requestOptions).ConfigureAwait(false);
         }
