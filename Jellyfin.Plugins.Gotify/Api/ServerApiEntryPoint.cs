@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using System.Web;
 using Jellyfin.Plugins.Gotify.Configuration;
 using MediaBrowser.Common.Net;
+using MediaBrowser.Model.Serialization;
 using MediaBrowser.Model.Services;
+using Microsoft.Extensions.Logging;
 
 namespace Jellyfin.Plugins.Gotify.Api
 {
@@ -19,11 +21,14 @@ namespace Jellyfin.Plugins.Gotify.Api
     public class ServerApiEndpoints : IService
     {
         private readonly IHttpClient _httpClient;
+        private readonly IJsonSerializer _jsonSerializer;
+        private readonly ILogger _logger;
 
-        
-        public ServerApiEndpoints(IHttpClient httpClient)
+        public ServerApiEndpoints(IHttpClient httpClient, IJsonSerializer jsonSerializer, ILoggerFactory loggerFactory)
         {
             _httpClient = httpClient;
+            _jsonSerializer = jsonSerializer;
+            _logger = loggerFactory.CreateLogger<ServerApiEndpoints>();
         }
         
         private static GotifyOptions GetOptions(string userId)
@@ -43,21 +48,27 @@ namespace Jellyfin.Plugins.Gotify.Api
                 {"title", HttpUtility.UrlEncode("Test Notification")},
                 {"priority", options.Priority.ToString()}
             };
-
+            
             var requestOptions = new HttpRequestOptions
             {
-                Url = options.Url.TrimEnd('/') + $"/message?token={options.Token}"
+                Url = options.Url.TrimEnd('/') + $"/message?token={options.Token}",
+                RequestContent = _jsonSerializer.SerializeToString(body),
+                BufferContent = false,
+                RequestContentType = "application/json",
+                LogErrorResponseBody = true,
+                LogRequest = true,
+                DecompressionMethod = CompressionMethod.None,
+                EnableKeepAlive = false
             };
-
-            requestOptions.SetPostData(body);
 
             await _httpClient.Post(requestOptions).ConfigureAwait(false);
         }
-        
+
         public void Post(TestNotification request)
         {
-            var task = PostAsync(request);
-            Task.WaitAll(task);
+            PostAsync(request)
+                .GetAwaiter()
+                .GetResult();
         }
     }
 }
