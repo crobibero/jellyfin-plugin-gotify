@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using Jellyfin.Plugins.Gotify.Configuration;
 using MediaBrowser.Common.Net;
 using MediaBrowser.Model.Serialization;
@@ -22,13 +21,11 @@ namespace Jellyfin.Plugins.Gotify.Api
     {
         private readonly IHttpClient _httpClient;
         private readonly IJsonSerializer _jsonSerializer;
-        private readonly ILogger _logger;
 
         public ServerApiEndpoints(IHttpClient httpClient, IJsonSerializer jsonSerializer, ILoggerFactory loggerFactory)
         {
             _httpClient = httpClient;
             _jsonSerializer = jsonSerializer;
-            _logger = loggerFactory.CreateLogger<ServerApiEndpoints>();
         }
         
         private static GotifyOptions GetOptions(string userId)
@@ -42,23 +39,20 @@ namespace Jellyfin.Plugins.Gotify.Api
         {
             var options = GetOptions(request.UserId);
 
-            var body = new Dictionary<string, string>
+            var body = new Dictionary<string, object>
             {
-                {"message", HttpUtility.UrlEncode("This is a test notification from Jellyfin")},
-                {"title", HttpUtility.UrlEncode("Test Notification")},
-                {"priority", options.Priority.ToString()}
+                {"message", "This is a test notification from Jellyfin"},
+                {"title", "Test Notification"},
+                {"priority", options.Priority}
             };
-            
+
             var requestOptions = new HttpRequestOptions
             {
                 Url = options.Url.TrimEnd('/') + $"/message?token={options.Token}",
                 RequestContent = _jsonSerializer.SerializeToString(body),
-                BufferContent = false,
                 RequestContentType = "application/json",
                 LogErrorResponseBody = true,
-                LogRequest = true,
-                DecompressionMethod = CompressionMethod.None,
-                EnableKeepAlive = false
+                LogRequest = true
             };
 
             await _httpClient.Post(requestOptions).ConfigureAwait(false);

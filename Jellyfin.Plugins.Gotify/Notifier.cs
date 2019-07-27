@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using Jellyfin.Plugins.Gotify.Configuration;
 using MediaBrowser.Common.Net;
 using MediaBrowser.Controller.Entities;
@@ -27,34 +26,31 @@ namespace Jellyfin.Plugins.Gotify
         {
             var options = GetOptions(request.User);
 
-            var body = new Dictionary<string, string>();
+            var body = new Dictionary<string, object>();
             
             // message parameter is required. If it is sent as null 
             // put name as message
 
             if (string.IsNullOrEmpty(request.Description))
             {
-                body.Add("message", HttpUtility.UrlEncode(request.Name));
+                body.Add("message", request.Name);
             }
             else
             {
                 if (!string.IsNullOrEmpty(request.Name))
-                    body.Add("title", HttpUtility.UrlEncode(request.Name));
-                body.Add("message", HttpUtility.UrlEncode(request.Description));
+                    body.Add("title", request.Name);
+                body.Add("message", request.Description);
             }
 
-            body.Add("priority", options.Priority.ToString());
-            
+            body.Add("priority", options.Priority);
+
             var requestOptions = new HttpRequestOptions
             {
                 Url = options.Url.TrimEnd('/') + $"/message?token={options.Token}",
                 RequestContent = _jsonSerializer.SerializeToString(body),
-                BufferContent = false,
                 RequestContentType = "application/json",
                 LogErrorResponseBody = true,
-                LogRequest = true,
-                DecompressionMethod = CompressionMethod.None,
-                EnableKeepAlive = false
+                LogRequest = true
             };
 
             await _httpClient.Post(requestOptions).ConfigureAwait(false);
