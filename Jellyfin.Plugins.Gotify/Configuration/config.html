@@ -64,21 +64,17 @@
     </div>
 
     <script type="text/javascript">
-
-        (function () {
-
-            var pluginId = "E29621A5-FA9E-4330-982E-EF6E54C0CAD2";
-
+        
+            var GotifyPluginConfig = {
+                uniquePluginId: "E29621A5-FA9E-4330-982E-EF6E54C0CAD2"
+            };
+            
             function loadUserConfig(page, userId) {
-
                 Dashboard.showLoadingMsg();
-
-                ApiClient.getPluginConfiguration(pluginId).then(function (config) {
+                ApiClient.getPluginConfiguration(GotifyPluginConfig.uniquePluginId).then(function (config) {
 
                     var gotifyConfig = config.Options.filter(function (c) {
-
-                        return userId == c.UserId;
-
+                        return userId === c.UserId;
                     })[0] || {};
 
                     $('#chkEnableGotify', page).checked(gotifyConfig.Enabled || false).checkboxradio("refresh");
@@ -91,18 +87,13 @@
             }
 
             $('.gotifyConfigurationPage').on('pageinit', function (event) {
-
                 var page = this;
-
                 $('#selectUser', page).on('change', function () {
-
                     loadUserConfig(page, this.value);
                 });
 
                 $('#testNotification', page).on('click', function (event) {
-
                     Dashboard.showLoadingMsg();
-
                     var onError = function () {
                         alert("There was an error sending the test notification. Please check your notification settings and try again.");
                         require(['alert'], function (alert) {
@@ -110,8 +101,7 @@
                         });
                     };
 
-                    ApiClient.getPluginConfiguration(pluginId).then(function (config) {
-
+                    ApiClient.getPluginConfiguration(GotifyPluginConfig.uniquePluginId).then(function (config) {
                         if (!config.Options.length) {
                             Dashboard.hideLoadingMsg();
                             require(['alert'], function (alert) {
@@ -120,7 +110,6 @@
                         }
 
                         config.Options.map(function (c) {
-
                             ApiClient.ajax({
                                 type: "POST",
                                 url: ApiClient.getUrl("Notification/Gotify/Test/" + c.UserId)
@@ -157,14 +146,12 @@
 
                 var form = this;
 
-                ApiClient.getPluginConfiguration(pluginId).then(function (config) {
+                ApiClient.getPluginConfiguration(GotifyPluginConfig.uniquePluginId).then(function (config) {
 
                     var userId = $('#selectUser', form).val();
 
                     var gotifyConfig = config.Options.filter(function (c) {
-
-                        return userId == c.UserId;
-
+                        return userId === c.UserId;
                     })[0];
 
                     if (!gotifyConfig) {
@@ -179,13 +166,11 @@
                     gotifyConfig.Url = $('#txtGotifyUrl', form).val();
                     gotifyConfig.Priority = $('#txtGotifyPriority', form).val();
 
-                    ApiClient.updatePluginConfiguration(pluginId, config).then(Dashboard.processPluginConfigurationUpdateResult);
+                    ApiClient.updatePluginConfiguration(GotifyPluginConfig.uniquePluginId, config).then(Dashboard.processPluginConfigurationUpdateResult);
                 });
 
                 return false;
             });
-
-        })();
 
     </script>
 </div>
