@@ -49,8 +49,7 @@ namespace Jellyfin.Plugins.Gotify
                 Url = options.Url.TrimEnd('/') + $"/message?token={options.Token}",
                 RequestContent = _jsonSerializer.SerializeToString(body),
                 RequestContentType = "application/json",
-                LogErrorResponseBody = true,
-                LogRequest = true
+                LogErrorResponseBody = true
             };
 
             await _httpClient.Post(requestOptions).ConfigureAwait(false);
