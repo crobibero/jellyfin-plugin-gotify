@@ -36,7 +36,7 @@ category: "Notifications"
 # Include the main output file, as well as any dependency `.dll`s that
 # might be required for the plugin to run.
 artifacts:
-  - "Jellyfin.Plugins.Gotify.dll"
+  - "Jellyfin.Plugin.Gotify.dll"
 
 # Build information values for the build infrastructure; these should
 # not need to be changed usually.

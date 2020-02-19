@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Jellyfin.Plugins.Gotify.Configuration;
+using Jellyfin.Plugin.Gotify.Configuration;
 using MediaBrowser.Common.Configuration;
 using MediaBrowser.Common.Plugins;
 using MediaBrowser.Model.Plugins;
 using MediaBrowser.Model.Serialization;
 
-namespace Jellyfin.Plugins.Gotify
+namespace Jellyfin.Plugin.Gotify
 {
     public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     {
