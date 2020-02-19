@@ -7,8 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="thumb.jpg" />
-      <EmbeddedResource Include="thumb.jpg" />
       <None Remove="Configuration\config.html" />
       <EmbeddedResource Include="Configuration\config.html" />
     </ItemGroup>

@@ -1,8 +1,17 @@
-# Jellyfin.Plugins.Gotify
-Gotify Notification Agent for Jellyfin
+<h1 align="center">Jellyfin Gotify Plugin</h1>
+<h3 align="center">Part of the <a href="https://jellyfin.org/">Jellyfin Project</a></h3>
 
-Get started with Gotify at https://gotify.net/
+## About
+The Jellyfin Gotify plugin can be used for sending notifications to a hosted <a href="https://gotify.net/">Gotify server.</a>
 
-Get started with Jellyfin at https://jellyfin.github.io/
+## Build & Installation Process
+1. Clone this repository
+2. Ensure you have .NET Core SDK setup and installed
+3. Build the plugin with following command:
+```
+dotnet publish --configuration Release --output bin
+```
+4. Place the resulting `Jellyfin.Plugin.Gotify.dll` file in a folder called `plugins/` inside your Jellyfin installation / data directory.
 
-Gotify Logo modified from https://github.com/gotify/logo
+### Screenshot
+<img src=screenshot.png>
