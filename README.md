@@ -9,13 +9,13 @@ The Jellyfin Gotify plugin can be used for sending notifications to a hosted <a 
 
 1. Clone this repository
 2. Ensure you have .NET Core SDK set up and installed
-3. Build the plugin with your favorite IDE or the `dotnet` command.
+3. Build the plugin with your favorite IDE or the `dotnet` command:
 
 ```
 dotnet publish --configuration Release --output bin
 ```
 
-4. Place the resulting `Jellyfin.Plugin.Gotify.dll` file in a folder called `plugins/` inside your Jellyfin data directory.
+4. Place the resulting `Jellyfin.Plugin.Gotify.dll` file in a folder called `plugins/` inside your Jellyfin data directory
 
 ### Screenshot
 
