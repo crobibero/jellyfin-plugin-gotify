@@ -19,7 +19,7 @@ jellyfin_version: "10.4.0" # The earliest binary-compatible version
 owner: "crobibero"
 
 # The nicely-formatted name of the plugin
-nicename: "Gotify Notification"
+nicename: "Gotify"
 
 # A short description of the plugin
 description: "Sends notifications to your Gotify server"

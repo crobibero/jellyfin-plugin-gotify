@@ -15,7 +15,7 @@ namespace Jellyfin.Plugin.Gotify
             Instance = this;
         }
 
-        public override string Name => "Gotify Notifications";
+        public override string Name => "Gotify";
         
         public IEnumerable<PluginPageInfo> GetPages()
         {
