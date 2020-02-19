@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Jellyfin.Plugin.Gotify.Configuration;
+using Jellyfin.Plugins.Gotify.Configuration;
 using MediaBrowser.Common.Net;
 using MediaBrowser.Model.Serialization;
 using MediaBrowser.Model.Services;
 using Microsoft.Extensions.Logging;
 
-namespace Jellyfin.Plugin.Gotify.Api
+namespace Jellyfin.Plugins.Gotify.Api
 {
     [Route("/Notification/Gotify/Test/{UserId}", "Post", Summary = "Tests Gotify")]
     public class TestNotification : IReturnVoid

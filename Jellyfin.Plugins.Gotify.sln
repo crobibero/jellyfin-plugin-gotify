@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jellyfin.Plugin.Gotify", "Jellyfin.Plugin.Gotify\Jellyfin.Plugin.Gotify.csproj", "{7C34E08E-E6A0-471F-BA9E-CDFB3CE4F7B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jellyfin.Plugins.Gotify", "Jellyfin.Plugins.Gotify\Jellyfin.Plugins.Gotify.csproj", "{7C34E08E-E6A0-471F-BA9E-CDFB3CE4F7B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

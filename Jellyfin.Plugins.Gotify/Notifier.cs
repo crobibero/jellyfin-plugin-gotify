@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Jellyfin.Plugin.Gotify.Configuration;
+using Jellyfin.Plugins.Gotify.Configuration;
 using MediaBrowser.Common.Net;
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Notifications;
 using MediaBrowser.Model.Serialization;
 
-namespace Jellyfin.Plugin.Gotify
+namespace Jellyfin.Plugins.Gotify
 {
     public class Notifier : INotificationService
     {
