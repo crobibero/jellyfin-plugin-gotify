@@ -3,7 +3,7 @@
 
 ## About
 
-The Jellyfin Gotify plugin can be used for sending notifications to a hosted <a href="https://gotify.net/">Gotify server.</a>
+The Jellyfin Gotify plugin can be used for sending notifications to a hosted <a href="https://gotify.net/">Gotify</a> server.
 
 ## Build & Installation Process
 
