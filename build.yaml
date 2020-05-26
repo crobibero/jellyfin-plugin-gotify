@@ -1,7 +1,7 @@
 ---
 name: "jellyfin-plugin-gotify"
 guid: "e29621a5-fa9e-4330-982e-ef6e54c0cad2"
-version: "6"
+version: "6.0.0.0"
 targetAbi: "10.5.0.0"
 owner: "crobibero"
 overview: "Sends notifications to your Gotify server"
@@ -9,4 +9,4 @@ description: >
     You must have a Gotify server to use this plugin!
 category: "Notifications"
 artifacts:
-  - "Jellyfin.Plugins.Gotify.dll"
+- "Jellyfin.Plugins.Gotify.dll"
