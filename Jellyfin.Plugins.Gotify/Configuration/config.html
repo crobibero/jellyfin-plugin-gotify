@@ -74,7 +74,7 @@
                         return userId === c.UserId;
                     })[0] || {};
 
-                    $('#chkEnableGotify', page).checked = gotifyConfig.Enabled || false;
+                    document.getElementById('chkEnableGotify').checked = gotifyConfig.Enabled || false;
                     $('#txtGotifyToken', page).val(gotifyConfig.Token || '');
                     $('#txtGotifyUrl', page).val(gotifyConfig.Url || '');
                     $('#txtGotifyPriority', page).val(gotifyConfig.Priority || 0);
@@ -121,9 +121,9 @@
 
                 var page = this;
                 ApiClient.getUsers().then(function (users) {
-                    $('#selectUser', page).html(users.map(function (user) {
+                    document.getElementById('selectUser').innerHTML = users.map(function (user) {
                         return '<option value="' + user.Id + '">' + user.Name + '</option>';
-                    })).selectmenu('refresh').trigger('change');
+                    });
                 });
 
                 Dashboard.hideLoadingMsg();
@@ -145,7 +145,7 @@
                     }
 
                     gotifyConfig.UserId = userId;
-                    gotifyConfig.Enabled = $('#chkEnableGotify', form).checked;
+                    gotifyConfig.Enabled = document.getElementById('chkEnableGotify').checked;
                     gotifyConfig.Token = $('#txtGotifyToken', form).val();
                     gotifyConfig.Url = $('#txtGotifyUrl', form).val();
                     gotifyConfig.Priority = $('#txtGotifyPriority', form).val();
