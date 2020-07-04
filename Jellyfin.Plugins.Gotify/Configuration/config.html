@@ -74,7 +74,7 @@
                         return userId === c.UserId;
                     })[0] || {};
 
-                    $('#chkEnableGotify', page).checked = gotifyConfig.Enabled || false;
+                    document.getElementById('chkEnableGotify').checked = gotifyConfig.Enabled || false;
                     $('#txtGotifyToken', page).val(gotifyConfig.Token || '');
                     $('#txtGotifyUrl', page).val(gotifyConfig.Url || '');
                     $('#txtGotifyPriority', page).val(gotifyConfig.Priority || 0);
@@ -145,7 +145,7 @@
                     }
 
                     gotifyConfig.UserId = userId;
-                    gotifyConfig.Enabled = $('#chkEnableGotify', form).checked;
+                    gotifyConfig.Enabled = document.getElementById('chkEnableGotify').checked;
                     gotifyConfig.Token = $('#txtGotifyToken', form).val();
                     gotifyConfig.Url = $('#txtGotifyUrl', form).val();
                     gotifyConfig.Priority = $('#txtGotifyPriority', form).val();
