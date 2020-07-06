@@ -21,7 +21,7 @@ namespace Jellyfin.Plugins.Gotify.Api
     {
         private readonly IHttpClient _httpClient;
         private readonly IJsonSerializer _jsonSerializer;
-        private readonly ILogger _logger;
+        private readonly ILogger<ServerApiEndpoints> _logger;
 
         public ServerApiEndpoints(IHttpClient httpClient, IJsonSerializer jsonSerializer, ILoggerFactory loggerFactory)
         {
