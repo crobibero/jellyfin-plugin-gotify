@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Jellyfin.Data.Entities;
 using Jellyfin.Plugins.Gotify.Configuration;
 using MediaBrowser.Common.Net;
 using MediaBrowser.Controller.Entities;
@@ -63,7 +64,7 @@ namespace Jellyfin.Plugins.Gotify
         
         public string Name => Plugin.Instance.Name;
 
-        private static GotifyOptions GetOptions(BaseItem user)
+        private static GotifyOptions GetOptions(User user)
         {
             return Plugin.Instance.Configuration.Options
                 .FirstOrDefault(u => string.Equals(u.UserId, user.Id.ToString("N"),
