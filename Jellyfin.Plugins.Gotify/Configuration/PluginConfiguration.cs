@@ -1,23 +1,25 @@
+using System;
 using MediaBrowser.Model.Plugins;
+#pragma warning disable CA1819
 
 namespace Jellyfin.Plugins.Gotify.Configuration
 {
+    /// <summary>
+    /// Plugin configuration.
+    /// </summary>
     public class PluginConfiguration : BasePluginConfiguration
     {
-        public GotifyOptions[] Options { get; set; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PluginConfiguration"/> class.
+        /// </summary>
         public PluginConfiguration()
         {
-            Options = new GotifyOptions[0];
+            Options = Array.Empty<GotifyOptions>();
         }
-    }
 
-    public class GotifyOptions
-    {
-        public bool Enabled { get; set; }
-        public string Url { get; set; }
-        public string Token { get; set; }
-        public string UserId { get; set; }
-        public int Priority { get; set; }
+        /// <summary>
+        /// Gets or sets configured options.
+        /// </summary>
+        public GotifyOptions[] Options { get; set; }
     }
 }

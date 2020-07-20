@@ -67,94 +67,99 @@
                 uniquePluginId: "E29621A5-FA9E-4330-982E-EF6E54C0CAD2"
             };
             
-            function loadUserConfig(page, userId) {
+            function loadUserConfig(userId) {
                 Dashboard.showLoadingMsg();
                 ApiClient.getPluginConfiguration(GotifyPluginConfig.uniquePluginId).then(function (config) {
                     var gotifyConfig = config.Options.filter(function (c) {
                         return userId === c.UserId;
                     })[0] || {};
 
-                    document.getElementById('chkEnableGotify').checked = gotifyConfig.Enabled || false;
-                    $('#txtGotifyToken', page).val(gotifyConfig.Token || '');
-                    $('#txtGotifyUrl', page).val(gotifyConfig.Url || '');
-                    $('#txtGotifyPriority', page).val(gotifyConfig.Priority || 0);
-
+                    document.querySelector('#chkEnableGotify').checked = gotifyConfig.Enabled || false;
+                    document.querySelector('#txtGotifyToken').value = gotifyConfig.Token || '';
+                    document.querySelector('#txtGotifyUrl').value = gotifyConfig.Url || '';
+                    document.querySelector('#txtGotifyPriority').value = gotifyConfig.Priority || 0;
                     Dashboard.hideLoadingMsg();
                 });
             }
 
-            $('.gotifyConfigurationPage').on('pageinit', function (event) {
-                var page = this;
-                $('#selectUser', page).on('change', function () {
-                    loadUserConfig(page, this.value);
+            document.querySelector('.gotifyConfigurationPage')
+                .addEventListener('pageinit', function(event) {
+
+                    document.querySelector('#selectUser').addEventListener('change', function () {
+                        loadUserConfig(this.value);
+                    });
+
+                    document.querySelector('#testNotification').addEventListener('click', function () {
+                        Dashboard.showLoadingMsg();
+                        var onError = function () {
+                            alert("There was an error sending the test notification. Please check your notification settings and try again.");
+                            require(['alert'], function (alert) {
+                                Dashboard.hideLoadingMsg();
+                            });
+                        };
+
+                        ApiClient.getPluginConfiguration(GotifyPluginConfig.uniquePluginId).then(function (config) {
+                            if (!config.Options.length) {
+                                Dashboard.hideLoadingMsg();
+                                require(['alert'], function (alert) {
+                                    alert("Please configure and save at least one notification account.");
+                                });
+                            }
+
+                            config.Options.map(function (c) {
+                                ApiClient.ajax({
+                                    type: "POST",
+                                    url: ApiClient.getUrl("Notification/Gotify/Test/" + c.UserId)
+                                }).then(function () {
+                                    Dashboard.hideLoadingMsg();
+                                }, onError);
+                            });
+                        });
+                    });
                 });
 
-                $('#testNotification', page).on('click', function (event) {
+            document.querySelector('.gotifyConfigurationPage')
+                .addEventListener('pageshow', function (event) {
                     Dashboard.showLoadingMsg();
-                    var onError = function () {
-                        alert("There was an error sending the test notification. Please check your notification settings and try again.");
-                        require(['alert'], function (alert) {
-                            Dashboard.hideLoadingMsg();
+    
+                    ApiClient.getUsers().then(function (users) {
+                        document.getElementById('selectUser').innerHTML = users.map(function (user) {
+                            return '<option value="' + user.Id + '">' + user.Name + '</option>';
                         });
-                    };
+
+                        loadUserConfig(document.querySelector('#selectUser').value);
+                    });
+    
+                    Dashboard.hideLoadingMsg();
+                });
+
+            document.querySelector('.gotifyConfigurationForm')
+                .addEventListener('submit', function(event){
+                    Dashboard.showLoadingMsg();
 
                     ApiClient.getPluginConfiguration(GotifyPluginConfig.uniquePluginId).then(function (config) {
-                        if (!config.Options.length) {
-                            Dashboard.hideLoadingMsg();
-                            require(['alert'], function (alert) {
-                                alert("Please configure and save at least one notification account.");
-                            });
+                        var userId = document.querySelector('#selectUser').value;
+                        var gotifyConfig = config.Options.filter(function (c) {
+                            return userId === c.UserId;
+                        })[0];
+
+                        if (!gotifyConfig) {
+                            gotifyConfig = {};
+                            config.Options.push(gotifyConfig);
                         }
 
-                        config.Options.map(function (c) {
-                            ApiClient.ajax({
-                                type: "POST",
-                                url: ApiClient.getUrl("Notification/Gotify/Test/" + c.UserId)
-                            }).then(function () {
-                                Dashboard.hideLoadingMsg();
-                            }, onError);
-                        });
+                        gotifyConfig.UserId = userId;
+                        gotifyConfig.Enabled = document.getElementById('chkEnableGotify').checked;
+                        gotifyConfig.Token = document.querySelector('#txtGotifyToken').value;
+                        gotifyConfig.Url = document.querySelector('#txtGotifyUrl').value;
+                        gotifyConfig.Priority = document.querySelector('#txtGotifyPriority').value;
+
+                        ApiClient.updatePluginConfiguration(GotifyPluginConfig.uniquePluginId, config).then(Dashboard.processPluginConfigurationUpdateResult);
                     });
+
+                    event.preventDefault();
+                    return false;
                 });
-            }).on('pageshow', function (event) {
-                Dashboard.showLoadingMsg();
-
-                var page = this;
-                ApiClient.getUsers().then(function (users) {
-                    document.getElementById('selectUser').innerHTML = users.map(function (user) {
-                        return '<option value="' + user.Id + '">' + user.Name + '</option>';
-                    });
-                });
-
-                Dashboard.hideLoadingMsg();
-            });
-
-            $('.gotifyConfigurationForm').on('submit', function (e) {
-                Dashboard.showLoadingMsg();
-
-                var form = this;
-                ApiClient.getPluginConfiguration(GotifyPluginConfig.uniquePluginId).then(function (config) {
-                    var userId = $('#selectUser', form).val();
-                    var gotifyConfig = config.Options.filter(function (c) {
-                        return userId === c.UserId;
-                    })[0];
-
-                    if (!gotifyConfig) {
-                        gotifyConfig = {};
-                        config.Options.push(gotifyConfig);
-                    }
-
-                    gotifyConfig.UserId = userId;
-                    gotifyConfig.Enabled = document.getElementById('chkEnableGotify').checked;
-                    gotifyConfig.Token = $('#txtGotifyToken', form).val();
-                    gotifyConfig.Url = $('#txtGotifyUrl', form).val();
-                    gotifyConfig.Priority = $('#txtGotifyPriority', form).val();
-
-                    ApiClient.updatePluginConfiguration(GotifyPluginConfig.uniquePluginId, config).then(Dashboard.processPluginConfigurationUpdateResult);
-                });
-
-                return false;
-            });
     </script>
 </div>
 </body>
