@@ -1,3 +1,5 @@
+# This plugin has been deprecated. Use https://github.com/crobibero/jellyfin-plugin-webhook instead.
+
 # Gotify Plugin for Jellyfin
 
 Gotify Notification Agent for Jellyfin
